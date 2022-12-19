@@ -9,4 +9,4 @@ shared: src/P1shared.c src/P2shared.c
 	gcc -o bin/P1shared src/P1shared.c
 	gcc -o bin/P2shared src/P2shared.c
 clean:
-	rm -rf bin/*
+	rm -f bin/*
