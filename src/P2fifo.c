@@ -33,7 +33,7 @@ int main()
                 perror("read");
             else {
                 s[num] = '\0';
-                printf("reader: read %d bytes: \"%s\"\n", num, s);
+                printf("stringListener: read %d bytes: \"%s\"\n", num, s);
             }
         }
         int IDs[5];
@@ -45,7 +45,7 @@ int main()
                 perror("read");
             else {
                 s[num] = '\0';
-                printf("reader: read %d bytes: \"%s\"\n", num, s);
+                printf("idListener: read %d bytes: \"%s\"\n", num, s);
                 IDs[i] = atoi(s);
             }
         }
@@ -57,7 +57,7 @@ int main()
         if ((num = write(fd2, maxIDString, strlen(maxIDString))) == -1)
             perror("write");
         else{
-            printf("speak: wrote %d bytes\n", num);
+            printf("ackSender: wrote %d bytes\n", num);
         }
         packetCount++;
     }
