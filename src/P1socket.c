@@ -58,7 +58,7 @@ int main()
         exit(1);
     }
 
-    if (listen(s, 5) == -1) {
+    if (listen(s, 1) == -1) {
         perror("listen");
         exit(1);
     }

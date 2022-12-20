@@ -12,7 +12,7 @@
 
 int main()
 {
-    int num, fd, fd2;
+    int bCount, fd, fd2;
 
     mknod(FIFO1_NAME, S_IFIFO | 0666, 0);
     mknod(FIFO2_NAME, S_IFIFO | 0666, 0);
@@ -29,11 +29,11 @@ int main()
         char** packets = (char**)malloc(5*sizeof(char*));
         char s[10];
         for (int i = 0; i < 5; i++){
-            if ((num = read(fd, s, 10)) == -1)
+            if ((bCount = read(fd, s, 10)) == -1)
                 perror("read");
             else {
-                s[num] = '\0';
-                printf("stringListener: read %d bytes: \"%s\"\n", num, s);
+                s[bCount] = '\0';
+                printf("stringListener: read %d bytes: \"%s\"\n", bCount, s);
             }
         }
         int IDs[5];
@@ -41,11 +41,11 @@ int main()
         for (int i = 0; i < 5; i++){
             char s[3];
             // if packetCount > 2 then read 2 bytes else 1 byte
-            if ((num = read(fd, s, bytesToRead)) == -1)
+            if ((bCount = read(fd, s, bytesToRead)) == -1)
                 perror("read");
             else {
-                s[num] = '\0';
-                printf("idListener: read %d bytes: \"%s\"\n", num, s);
+                s[bCount] = '\0';
+                printf("idListener: read %d bytes: \"%s\"\n", bCount, s);
                 IDs[i] = atoi(s);
             }
         }
@@ -54,10 +54,10 @@ int main()
         char maxIDString[3];
         sprintf(maxIDString, "%d", maxID);
         //open fifo2 for writing
-        if ((num = write(fd2, maxIDString, strlen(maxIDString))) == -1)
+        if ((bCount = write(fd2, maxIDString, strlen(maxIDString))) == -1)
             perror("write");
         else{
-            printf("ackSender: wrote %d bytes\n", num);
+            printf("ackSender: wrote %d bytes\n", bCount);
         }
         packetCount++;
     }

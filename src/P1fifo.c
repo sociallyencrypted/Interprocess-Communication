@@ -29,7 +29,7 @@ char** generateRandomStrings(int n, int len)
 int main()
 {
     char s[300];
-    int num, fd, fd2;
+    int bCount, fd, fd2;
 
     mknod(FIFO1_NAME, S_IFIFO | 0666, 0);
     mknod(FIFO2_NAME, S_IFIFO | 0666, 0);
@@ -49,7 +49,7 @@ int main()
         // send packets
         int baseStringNumber = packetCount*5;
         for (int i = 0; i < 5; i++){
-            if ((num = write(fd, packets[baseStringNumber+i], strlen(packets[baseStringNumber + i]))) == -1){
+            if ((bCount = write(fd, packets[baseStringNumber+i], strlen(packets[baseStringNumber + i]))) == -1){
                 perror("write");
             }
         }
@@ -59,17 +59,17 @@ int main()
             IDs[i] = baseStringNumber + i;
             char ID[3];
             sprintf(ID, "%d", IDs[i]);
-            if ((num = write(fd, ID, strlen(ID))) == -1){
+            if ((bCount = write(fd, ID, strlen(ID))) == -1){
                 perror("write");
             }
         }
         // recieve ack through FIFO2
 
         do {
-            if ((num = read(fd2, s, 300)) == -1)
+            if ((bCount = read(fd2, s, 300)) == -1)
                 perror("read");
             else {
-                s[num] = '\0';
+                s[bCount] = '\0';
                 int maxStringNumber = packetCount*5 + 4;
                 if (atoi(s) == maxStringNumber){
                     break;
@@ -79,7 +79,7 @@ int main()
                     exit(1);
                 }
             }
-        } while (num > 0);
+        } while (bCount > 0);
         packetCount++;
     }
     clock_gettime(CLOCK_REALTIME, &end);
