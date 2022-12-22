@@ -5,6 +5,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <unistd.h>
+#include <time.h>
 
 #define SHM_SIZE 128
 
@@ -38,8 +39,7 @@ int main(int argc, char* argv[])
     char* path = argv[1];
     if ((key = ftok(path, 'R')) == -1) {
         perror("ftok");
-        exit(1);
-    }
+        exit(1);#include <time.h>
 
     /* connect to (and possibly create) the segment: */
     if ((shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT)) == -1) {
@@ -54,6 +54,8 @@ int main(int argc, char* argv[])
         exit(1);
     }
     int packetCount = 0;
+    struct timespec start, end;
+    clock_gettime(CLOCK_REALTIME, &start);
     while (packetCount < 10) {
         strncpy(data, "", SHM_SIZE);
         int baseStringNumber = packetCount*5;
@@ -80,6 +82,8 @@ int main(int argc, char* argv[])
             }
         }
     }
+    clock_gettime(CLOCK_REALTIME, &end);
+    printf("Recieved all acks in %f seconds\n", (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec)/1000000000.0);
     
 
     /* detach from the segment: */
