@@ -7,6 +7,7 @@ This assignment implements three kinds of interprocess communication to send a l
 Clone this repo, `cd` into it, and run:
 
 ```console
+mkdir bin
 make
 ```
 
