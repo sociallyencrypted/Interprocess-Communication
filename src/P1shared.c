@@ -39,8 +39,8 @@ int main(int argc, char* argv[])
     char* path = argv[1];
     if ((key = ftok(path, 'R')) == -1) {
         perror("ftok");
-        exit(1);#include <time.h>
-
+        exit(1);
+    }
     /* connect to (and possibly create) the segment: */
     if ((shmid = shmget(key, SHM_SIZE, 0644 | IPC_CREAT)) == -1) {
         perror("shmget");
